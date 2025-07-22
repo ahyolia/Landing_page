@@ -1,0 +1,15 @@
+# Node modules
+/node_modules/
+
+# Dossier de build Webpack
+/dist/
+
+# Fichiers de configuration locaux
+/.env
+/.vscode/
+
+# Fichiers de logs
+*.log
+
+# Dossiers de dépendances NPM globales
+npm-debug.log*
