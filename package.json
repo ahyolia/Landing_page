@@ -1,40 +1,30 @@
 {
-  "name": "cams_page",
+  "name": "prj",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ahyolia/cams_page.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/ahyolia/cams_page/issues"
-  },
-  "homepage": "https://github.com/ahyolia/cams_page#readme",
+  "description": "",
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
     "babel-loader": "^10.0.0",
     "copy-webpack-plugin": "^13.0.0",
-    "css-loader": "^7.1.2",
-    "gsap": "^3.13.0",
     "html-webpack-plugin": "^5.6.3",
     "image-minimizer-webpack-plugin": "^4.1.3",
-    "imagemin": "^9.0.1",
     "imagemin-mozjpeg": "^10.0.0",
     "imagemin-pngquant": "^10.0.0",
-    "style-loader": "^4.0.0",
+    "imagemin-webpack-plugin": "^2.4.2",
     "webpack": "^5.100.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {
+    "gsap": "^3.13.0"
   }
 }
