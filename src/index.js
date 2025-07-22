@@ -1,11 +1,10 @@
 
 import gsap from 'gsap';
 import logo from './favicon.png';
-import favicon from './favicon.ico';
+
 
 window.onload = () => {
   document.querySelector('.logo').src = logo;
-  document.querySelector('link[rel="icon"]').href = favicon;
   const tl = gsap.timeline();
 
   tl.from("h1", {
