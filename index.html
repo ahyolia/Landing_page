@@ -15,28 +15,29 @@
 </head>
 
 <style>
-    body {
+body {
     font-family: Arial, sans-serif;
     background-color: #fdf6e3;
-    color : #586e75 ;
+    color: #586e75;
     margin: 40px;
     padding: 20px;
 }
 
 .present {
     display: flex;
-    flex-direction: inline;
+    flex-direction: row; /* Changé de inline à row pour clarté */
     align-items: center;
     justify-content: center;
     text-align: center;
     margin-bottom: 40px;
 }
 
-.logo{
+.logo {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     margin-right: 20px;
+    opacity: 0; /* Initialement caché pour l'animation GSAP */
 }
 
 .text {
@@ -45,11 +46,19 @@
     align-items: center;
     justify-content: center;
     max-width: 600px;
-
 }
+
+.text h1 {
+    opacity: 0; /* Initialement caché pour l'animation GSAP */
+}
+
+.text p {
+    opacity: 0; /* Initialement caché pour l'animation GSAP */
+}
+
 .reseaux {
     display: flex;
-    gap : 20px;
+    gap: 20px;
     margin: 10px 0;
 }
 
@@ -57,6 +66,7 @@
     text-decoration: none;
     color: #586e75;
     font-size: 1.5em;
+    opacity: 0; /* Initialement caché pour l'animation GSAP */
 }
 
 .reseaux a:hover {
