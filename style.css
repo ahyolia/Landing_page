@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #ddd6c1;
-    color : white ;
+    color : #8d8b85 ;
     margin: 40px;
     padding: 20px;
 }
@@ -38,7 +38,7 @@ body {
 
 .reseaux a {
     text-decoration: none;
-    color: white;
+    color: #8d8b85;
     font-size: 1.5em;
 }
 
