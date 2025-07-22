@@ -1,66 +1,57 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js', // Point d'entrée pour le JavaScript
+  entry: './src/index.js',
   output: {
-    filename: 'bundle.[contenthash].js', // Ajout de contenthash pour le cache
-    path: path.resolve(__dirname, 'dist'),
-    clean: true, // Nettoie le dossier dist avant chaque build
-    assetModuleFilename: 'assets/[name][ext]', // Structure pour les fichiers statiques
+    filename: 'bundle.js',
+     path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
       {
-        test: /\.js$/, // Gestion des fichiers JavaScript
+        test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'], // Compatibilité avec les navigateurs modernes
-          },
+        use: 'babel-loader',
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][ext]',
         },
-      },
-      {
-        test: /\.css$/, // Gestion des fichiers CSS
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|jpg|jpeg|gif)$/i, // Gestion des images (exclut .ico)
-        type: 'asset/resource',
-      },
-      {
-        test: /\.ico$/i, // Règle séparée pour .ico
-        type: 'asset/resource',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html', // Fichier HTML source
-      favicon: './favicon.png', // Inclusion du favicon
+      template: './index.html',
     }),
+    // Copie des images dans /img dans le dossier de sortie
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'img'),
+          to: 'img',
+        },
+      ],
+    }),
+    // Optimisation des images copié
     new ImageMinimizerPlugin({
-      test: /\.(png|jpe?g|gif)$/i, // Exclure .ico
-      exclude: [/favicon\.png/i], // Exclusion explicite de favicon.png
+      test: /\.(png|jpe?g|gif)$/i,
       minimizer: {
-        implementation: ImageMinimizerPlugin.imageminMinify,
+        implementation: ImageMinimizerPlugin.imageminGenerate,
         options: {
           plugins: [
-            ['imagemin-mozjpeg', { quality: 70 }], // Compression JPEG
-            ['imagemin-pngquant', { quality: [50, 80] }], // Compression PNG
+                        ['mozjpeg', { quality: 90 }],
+            ['pngquant', { quality: [0.5, 0.8] }],
           ],
         },
       },
     }),
   ],
-  mode: 'production', // Par défaut pour npm run build
-  devtool: 'source-map', // Générer des source maps pour le débogage
-  devServer: {
-    static: path.join(__dirname, 'dist'), // Dossier servi par webpack-dev-server
-    compress: true,
-    port: 8080, // Port pour le serveur de développement
-    open: true, // Ouvre automatiquement le navigateur
-  },
+  mode: 'production',
 };
