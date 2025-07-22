@@ -2,7 +2,7 @@ import gsap from 'gsap';
 console.log('Hello, Webpack!');
 
 // Animation pour le logo
-  gsap.from('.logo', {
+  gsap.from('#logo', {
       opacity: 0,
       scale: 0.5,
       rotation: 360,
@@ -11,7 +11,7 @@ console.log('Hello, Webpack!');
   });
 
   // Animation pour le titre
-  gsap.from('.text h1', {
+  gsap.from('#text h1', {
       opacity: 0,
       y: 50,
       duration: 1,
@@ -20,7 +20,7 @@ console.log('Hello, Webpack!');
   });
 
   // Animation pour le paragraphe
-  gsap.from('.text p', {
+  gsap.from('#text p', {
       opacity: 0,
       y: 30,
       duration: 1,
@@ -29,7 +29,7 @@ console.log('Hello, Webpack!');
   });
 
   // Animation pour les icônes des réseaux sociaux (séquentielle)
-  gsap.from('.reseaux a', {
+  gsap.from('#reseaux a', {
       opacity: 0,
       scale: 0.5,
       duration: 0.5,
