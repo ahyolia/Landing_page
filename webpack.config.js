@@ -1,57 +1,66 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.js', // Point d'entrée pour le JavaScript
   output: {
-    filename: 'bundle.js',
-     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    filename: 'bundle.[contenthash].js', // Ajout de contenthash pour le cache
+    path: path.resolve(__dirname, 'dist'),
+    clean: true, // Nettoie le dossier dist avant chaque build
+    assetModuleFilename: 'assets/[name][ext]', // Structure pour les fichiers statiques
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js$/, // Gestion des fichiers JavaScript
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'], // Compatibilité avec les navigateurs modernes
+          },
+        },
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+        test: /\.css$/, // Gestion des fichiers CSS
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/i, // Gestion des images (exclut .ico)
         type: 'asset/resource',
-        generator: {
-          filename: 'img/[name][ext]',
-        },
+      },
+      {
+        test: /\.ico$/i, // Règle séparée pour .ico
+        type: 'asset/resource',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './index.html', // Fichier HTML source
+      favicon: './favicon.png', // Inclusion du favicon
     }),
-    // Copie des images dans /img dans le dossier de sortie
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'img'),
-          to: 'img',
-        },
-      ],
-    }),
-    // Optimisation des images copié
     new ImageMinimizerPlugin({
-      test: /\.(png|jpe?g|gif)$/i,
+      test: /\.(png|jpe?g|gif)$/i, // Exclure .ico
+      exclude: [/favicon\.png/i], // Exclusion explicite de favicon.png
       minimizer: {
-        implementation: ImageMinimizerPlugin.imageminGenerate,
+        implementation: ImageMinimizerPlugin.imageminMinify,
         options: {
           plugins: [
-                        ['mozjpeg', { quality: 90 }],
-            ['pngquant', { quality: [0.5, 0.8] }],
+            ['imagemin-mozjpeg', { quality: 70 }], // Compression JPEG
+            ['imagemin-pngquant', { quality: [50, 80] }], // Compression PNG
           ],
         },
       },
     }),
   ],
-  mode: 'production',
+  mode: 'production', // Par défaut pour npm run build
+  devtool: 'source-map', // Générer des source maps pour le débogage
+  devServer: {
+    static: path.join(__dirname, 'dist'), // Dossier servi par webpack-dev-server
+    compress: true,
+    port: 8080, // Port pour le serveur de développement
+    open: true, // Ouvre automatiquement le navigateur
+  },
 };
